@@ -1,0 +1,4 @@
+syntax enable
+set wrap
+set cindent cino=>3 sw=3 ts=3
+set background=dark

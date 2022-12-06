@@ -1,0 +1,12 @@
+startup_message off
+
+backtick 1 0 60 /arpa/af/a/anthonyg/bin/mcount.sh -s
+backtick 2 0 60 /arpa/af/a/anthonyg/bin/sdfproc.sh
+
+shell /usr/pkg/bin/zsh
+#shell /usr/pkg/bin/bash
+
+caption always "%{kg}%D %M %d | %2` | %1` | %l | %h"
+hardstatus alwayslastline "%{kG}%-w%{gk}[%n%f %t]%{kG}%+w%{kk}"
+
+#idle 900 lockscreen

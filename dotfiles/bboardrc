@@ -1,0 +1,4 @@
+# Set the editor
+
+#EDITOR=vi
+EDITOR=tty

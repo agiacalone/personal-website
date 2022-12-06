@@ -1,0 +1,3 @@
+DirectoryIndex MyID.config.php
+RewriteEngine on
+RewriteRule \.php$ - [E=PHP_AUTH_DIGEST:%{HTTP:Authorization},L]

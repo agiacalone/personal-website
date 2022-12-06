@@ -1,0 +1,6 @@
+AuthUserFile /sdf/www/af/a/anthonyg/motd/wordpress/wp-admin/.htpasswd
+AuthName PasswdProtection
+AuthType Basic
+<Limit GET>
+require valid-user
+</Limit>

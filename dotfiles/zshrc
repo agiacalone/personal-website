@@ -1,0 +1,107 @@
+# .zshrc: ZSH config file
+
+###################################################################
+#                           Tautologies                           #
+###################################################################
+# Alias'
+alias dir='dir --color'
+alias g++='g++ -g -Wall -W -Wcast-qual -Wcast-align -Wsign-compare -Wredundant-decls -Wfloat-equal  -Wmissing-format-attribute -Wshadow -static '
+alias lock='clear && lock -p -t 120'
+alias pd=pushd
+alias bd=popd
+alias kterm='pkill -9 -t'
+alias pterm='pkill -STOP -t'
+alias cterm='pkill -CONT -t'
+alias sl='ls'
+alias -g PG='|grep '
+
+#export ARGV0="Hey no peeking!  For real now I dont look at you wtf man wtf thats messed!"
+
+# Some sufixes
+alias -s net=links
+alias -s org=links
+alias -s edu=links
+alias -s com=links
+
+# Set Backspace
+stty erase '^H' echoe
+
+# Enable history
+HISTFILE=~/.zsh_hist
+HISTSIZE=1000
+SAVEHIST=1000
+
+# Timezone settings
+export TZ=US/Pacific
+
+# Set key bindings to Vi(The way, the truth, and the light)
+bindkey -v 
+
+###################################################################
+#                      Added for GNU screen                       #
+###################################################################
+if [[ $TERM == "xterm" ]]; then
+	# Set extension (current job; trunc to cut out path)
+	TAB_TITLE_EXEC='$cmd[1]:t'
+
+	# Set the prompt (EOPath)
+	TAB_HARDSTATUS_PROMPT='$SHELL:t'
+	# Set extension (current job + args; trunc to cut out path)
+	TAB_HARDSTATUS_EXEC='$cmd'
+
+# Send info to GNU screen:
+function screen_set() {
+	# Set the %t title
+	print -nR $'\033k'$1$'\033'\\\
+	# Set the hardstatus %h of each tab
+	print -nR $'\033]0;'$2$'\a'
+}
+
+function preexec() {
+	local -a cmd; cmd=(${(z)1}) #cmd string
+	eval "tab_title=$TAB_TITLE_EXEC" 
+	eval "tab_hardstatus=$TAB_HARDSTATUS_PROMPT\:$TAB_HARDSTATUS_EXEC"
+	screen_set $tab_title $tab_hardstatus
+}
+
+function precmd() {
+	export RPS1="[$(print '%{\e[1;31m%}')%T %?$(print '%{\e[0m%}')]"
+	eval "tab_title=$TAB_TITLE_EXEC" 
+	eval "tab_hardstatus=$TAB_HARDSTATUS_PROMPT$TAB_HARDSTATUS_EXEC"
+	screen_set $tab_title $tab_hardstatus
+}
+	
+
+###################################################################
+#                        Added for xterm                          #
+###################################################################
+
+elif [[ $TERM == "xterm" ]]; then
+	# Right prompt($RPS1)
+	function precmd {
+		export RPS1="[$(print '%{\e[1;31m%}')%T %?$(print '%{\e[0m%}')]"
+	}
+
+	# Left prompt($PS1)
+#	export PS1="$(print '%{\e[1;32m%}')%m@%c$(print '%{\e[0m%}')%# "
+	export PS1="$(print '%{\e[1;32m%}')%m@%c%{%}%#$(print '%{\e[0m%}')%# "
+
+###################################################################
+#                      Added for GNU Emacs                        #
+##################################################################
+elif [[ $TERM == "emacs" ]]; then
+	export PS1="%m@%?:\% "
+else 
+	# Right prompt($RPS1)
+	function precmd {
+		export RPS1="[$(print '%{\e[1;31m%}')%T %?$(print '%{\e[0m%}')]"
+	}
+	# Left prompt($PS1)
+	export PS1="$(print '%{\e[1;32m%}')%m@%c$(print '%{\e[0m%}')%# "
+fi
+
+# Add some humor
+#echo ""
+#/usr/pkg/games/fortune
+
+# End .zshrc
